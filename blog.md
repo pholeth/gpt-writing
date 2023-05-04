@@ -93,11 +93,11 @@ setParagraph(response.data.choices[0].message.content);
 
 In the first statement, we specified the chat completion call, we passed in the model and the array of _messages_. Each message comes with a _role_ and the _content_ (prompt). Especially, in this call, the `temperature` is set to 1 to indicate that we want the results to be fully randomized, we don't want the same paragraph returned everytime. Finally, we passed the results (`choices` - an array of completions but usually only 1 item returned)
 
-The next question is how to make this kind of prompt. Open AI has a limited free online course on how to create these prompts at `https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/` where it explains how to make the prompts effectively so that the ChatGPT can best understand. There is now a new branch of subject called _prompt engineer_ :D
+The next question is how to make this kind of prompt. Open AI has a limited free online course on how to create those prompts at [https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/) where it teachs how to make the prompts so that the ChatGPT can effectively understand it. There is also now a new branch of title, called _prompt engineer_ :D
 
-So that is, we made the first prompt or first interaction with ChatGPT. Wait for a while, we should get the result back and there the paragraph.
+So that is, we made the first prompt or the first interaction with ChatGPT. Wait for a while, we should get the result back and there the paragraph returned.
 
-## The Review
+## The Writing Review
 
 In the first part, we interacted with ChatGPT to generate for us the paragraph. Now we want it to review our writing work and perhaps give some corrections. So now we need a text input component and a button to trigger the reivew. It is again trivial task in React and assume that the writing is stored in state and ready to use as followed
 
