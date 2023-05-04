@@ -134,4 +134,6 @@ Here is the source code for working app
 
 https://github.com/pholeth/gpt-writing
 
-And the screenshots of the app
+And the screenshots of the working app
+
+![App screenshot](./docs/app-screenshot.png)

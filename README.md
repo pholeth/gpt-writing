@@ -13,7 +13,6 @@ $ npm start
 
 Before that, obtain the OpenAI Api key from your OpenAI dashboard and create the `.env.local` file with following content
 
-````
+```
 REACT_APP_OPENAI_API_KEY=<YOUR-OPENID-API-KEY>
 ```
-````

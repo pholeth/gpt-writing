@@ -131,6 +131,7 @@ function App() {
                 onChange={(event) => setWriting(event.currentTarget.value)}
                 withAsterisk
                 autosize
+                size="md"
                 minRows={3}
               />
 
