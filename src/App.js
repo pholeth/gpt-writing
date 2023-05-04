@@ -93,7 +93,7 @@ function App() {
         <SimpleGrid cols={2}>
           <SimpleGrid cols={2}>
             <Select
-              label="The paragraph length"
+              label="The paragraph size"
               placeholder="Pick the maximum sentences"
               data={sizeOptions}
               value={size}

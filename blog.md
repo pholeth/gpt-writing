@@ -1,12 +1,14 @@
 # Develop an app with ChatGPT
 
-I think writing is the best method to learn a new language. I usually want to have a place where I can find the short paragraphs with random topics to practice writing and have a person to review my writing. Though, it is not easy in practice to achieve those, unless you go to a dedicated writing class. But thanks to ChatGPT and OpenAI, they provided an amazing technology so we can do all this for free (not really but extremely small fee). So this article is going to show how to develop a Web application with ChatGPT or OpenAI Api. The app uses React and OpenAI API for Javascript for simplicity and more in the purpose to show how to interact with ChatGPT to develop meaningful applications with AI-capabilities. The article assumes that you already knew about React and Web development, and all trivial tasks are not mentioned.
+I think writing is the best method to learn a new language. I usually want to have a place where I can find the short paragraphs with random topics to practice writing and have a person to review my writings. However, it is not easy in practice to have those, unless you go to a dedicated writing class. But thanks to ChatGPT and OpenAI, they provided an amazing technology so we can do all this for free (not really but extremely small fee). So this article is going to show how to develop a Web application with ChatGPT or OpenAI Api.
 
 ## About the App
 
-Our app would be simple. There is only one page and the user is asked to input the paragraph length (number of sentences) and the difficulty level (easy, medium and hard) and select to generate a paragraph to practice writing. After writing is done, users can select to check if the writing is correct and where is wrong or what is the correct writing.
+Our app would be simple. There is only one page and the user is asked to input the paragraph size (number of sentences) and the difficulty level (easy, medium and hard) and generate a paragraph to practice writing. After the writing is done, users can select to check if the writing is correct and possibly provide a corrections.
 
-### Get started and setup the app
+The app is built using React and OpenAI API for Javascript for simplicity and the main focus is more to show how to build a Web app that interacts with ChatGPT to develop meaningful applications with the power of AI. The article assumes that you already knew about React and Web development, so all trivial tasks such as creating components in React are not mentioned.
+
+### Get started
 
 To get started, first create a new React app, there is no limitation on which tool to create the React app, but for quick and simplicity, `create-react-app` is proven to be quite a popular tool to use. Use the following command to create new React app (required to have NodeJS installed first)
 
@@ -18,29 +20,27 @@ $ cd myGptWrting
 $ npm start
 ```
 
-If the app is generated and can be run, let's talk about the OpenAI API part.
+If the app is generated and can be run, now let's talk about the OpenAI API
 
 ## OpenAI API
 
 OpenAI offers an API for paid subscriptions (free trial) to interact with the ChatGPT. Here are the main terms used in app and also in ChatGPT.
 
-- **prompt** is like the query we use to query database, for example of an prompt _Translate this text to Finnish_ or _Calculate the result of this operation_ .etc...
+- **prompt** is like the query we use to query database, for example of a prompt "_Translate this text to Finnish_" or "_Calculate the result of this operation_" .etc...
 
-- **completion** refer to the results sent back from ChatGPT. There are various completion types, like _TextCompletion_ or _ChatCompletion_ for replies like we do chat with chatGPT
+- **completion** refer to the results sent back from ChatGPT. There are various completion types, like _TextCompletion_ or _ChatCompletion_ for replies like we do chat with chatGPT. It has the name of completion probably due the everything is a generation from a model rather than an actual result of a calculation.
 
-- **model** ChatGPT is an AI model and it is trained for various purposes, and thus there are different models optimized for different case, for example models optimized for chat like _gpt-3.5-turbo_ or _gpt-4_ or _ada_, _davinci_ for text completions. Each comes with a pro and con and with differnt price when using the API, like one is faster but less accurate or one is most accurate but slower .etc...
+- **model** ChatGPT is an AI model and it is trained for various purposes, and thus there are different models optimized for different use cases, for example models optimized for chat are _gpt-3.5-turbo_ or _gpt-4_ or _ada_, _davinci_ for text completions. Each comes with a pro and con and with differnt price when using the API, i.e one is faster but less accurate or one is most accurate but slower .etc...
 
 - **temperature** A parameter used in the API query used to indicate the randomness of the prompt (value is from zero to 1). Zero means it is least random and we can expect the same result for the same input and 1 means it is very random.
-
-- **token** Used in calculate the cost per query, it is like a word, i.e _Translate this text_ has 3 tokens
 
 When making the OpenAI API, we will send in the _prompt_, together with the _model_ and _the user role_ (required in chat completion and it has 3 values: _system_, _assistant_ and _user_) and the API return back the _completion_ results. The result is an array but has only one item unless we specifiy more.
 
 ## The Paragraph Generation
 
-Our first part is to create 2 selectors and a button that will generate the paragraph. It is a trivial step in React to add those components into the main page and all the UI frameworks can be used in this step, in this article it will use the Mantine UI framework for React.
+The first part in the app is to create 2 drop-down selectors and a button that will generate the paragraph. It is a trivial step in React to add those components into the main page and all the UI frameworks can be used in this step, in this article it will use the Mantine UI framework for React.
 
-So now, we have the handler for the button click, next we will make a query to OpenAI API to generate the paragraph that we need. Assuming the paragraph size and the difficulty level is stored as the state and ready to use as followed,
+So now, we have the UI and need to fill in the handler for the button click. We will make a query to OpenAI API to generate the paragraph that we need. Assuming the paragraph size and the difficulty level is stored as the state and ready to use as followed,
 
 ```js
 const [size, setSize] = useState(1);
@@ -50,7 +50,7 @@ const [level, setLevel] = useState("medium");
 const [paragraph, setParagraph] = useState("");
 ```
 
-Then, need to install the OpenAI SDK package
+First, we need to install the OpenAI SDK package
 
 ```
 $ npm install openai
@@ -68,9 +68,13 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 ```
 
-In order to obtain the Api key, go to `https://platform.openai.com/docs/api-reference` and register the account and create a new API key. **Note** that it is a paid subscription but has the free trial. After obtaining the Api key, either use it directly in the code (just to demo, not recommended in production use) or put it via the environment variable.
+In order to obtain the Api key, go to [https://platform.openai.com/docs/api-reference](https://platform.openai.com/docs/api-reference) and register the account and create a new API key, it has a free trial for 30 days. Even with paid subscription, personal use is also very cheap.
 
-So now, we are ready to use the API. At this moment, it seems that the model `gpt-3.5-turbo` has the cheapest price and also serve the purpose, so it is chosen for this app, thus we need to use the chat completion API query for this. Here is the snippet to make the API call.
+After obtaining the Api key, either use it directly in the code (just to demo, not recommended in production use) or put it via the environment variable.
+
+So now, we are ready to use the API. At this time of this writing, it seems that the model `gpt-3.5-turbo` has the cheapest price and also serve the purpose, thus it is chosen for this app. From that, we have to to use the chat completion API query in order to use this model. Note that, this model and this completion is mostly for chat generation.
+
+Here is the snippet to make the API call.
 
 ```js
 const response = await openai.createChatCompletion({
@@ -128,7 +132,9 @@ In this OpenAI call, the temperatur is set to zero since we want the result or t
 
 ## To wrap up
 
-The app in my opinion is very useful in everyday work to help me learning new language. Even though the technical part in the app is very simple but it demonstrates one point that how easy nowadays to create a smart and helpful applications for daily life by utilizing the ChatGPT. The creativity is endless.
+The app in my opinion is very useful in everyday work to help me learning new language. Even though the technical part in the app is very simple but it demonstrates one point, which is how easy nowadays to create a smart and helpful applications for daily life by utilizing the ChatGPT. Beside the model used in this app, there are a lot of models and different completions or cases (ImageCompletion) to try out for various purposes. The creativity is endless.
+
+## Source code & screenshots
 
 Here is the source code for working app
 
