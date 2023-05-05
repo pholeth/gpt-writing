@@ -4,7 +4,9 @@ I think writing is the best method to learn a new language. I usually want to ha
 
 ## About the App
 
-Our app would be simple. There is only one page and the user is asked to input the paragraph size (number of sentences) and the difficulty level (easy, medium and hard) and generate a paragraph to practice writing. After the writing is done, users can select to check if the writing is correct and possibly provide a corrections.
+Our app would be simple. There is only one page and the user is asked to input the paragraph size (number of sentences) and the difficulty level (easy, medium and hard) and generate a paragraph to practice writing. After the writing is done, users can select to check if the writing is correct and possibly provide a corrections. Finally, we want to have some new words to study in the text.
+
+![App screenshot](./docs/app-screenshot.png)
 
 The app is built using React and OpenAI API for Javascript for simplicity and the main focus is more to show how to build a Web app that interacts with ChatGPT to develop meaningful applications with the power of AI. The article assumes that you already knew about React and Web development, so all trivial tasks such as creating components in React are not mentioned.
 
@@ -114,7 +116,7 @@ Next is the handler when press on the button,
 ```js
 const response = await openai.createChatCompletion({
   model: "gpt-3.5-turbo",
-  temperature: 0,
+  temperature: 0, // we want the text to be consistent
   messages: [
     {
       role: "user",
@@ -130,16 +132,38 @@ const response = await openai.createChatCompletion({
 
 In this OpenAI call, the temperatur is set to zero since we want the result or the review to be consistent all the time. In this prompt, we injected our writing work and also the previous paragraph into the message. And that's it, that is how we can utilize the power of ChatGPT to create helpful applications. It is more in how we know to write the right prompt so that ChatGPT can work most effective. Of course, there are a lot of more to learn (see the course above) in various tasks for ChatGPT.
 
+## The new words
+
+In the last part, we want to ask ChatGPT to pick up 3 random words from the writing and send us the completion in the JSON format. This task is more to show the capabilities in the prompt that ChatGPT can do. Here is the prompt,
+
+```js
+const response = await openai.createChatCompletion({
+  model: "gpt-3.5-turbo",
+  temperature: 1, // we want the text to be most randomized
+  messages: [
+    {
+      role: "user",
+      content: `Pick up 3 new words in the writing or the correct and output them as an array with key "word" in JSON format:
+      "${writing}"`,
+    },
+  ],
+});
+```
+
+The interesting in this prompt is we can instruct ChatGPT to output the result in the JSON format and we can even specify the key for each item. So here is an example of the output
+
+```json
+[{ "word": "word1" }, { "word": "word2" }, { "word": "word3" }]
+```
+
+After getting the result, we can parse it in JSON and extract the new words.
+
 ## To wrap up
 
-The app in my opinion is very useful in everyday work to help me learning new language. Even though the technical part in the app is very simple but it demonstrates one point, which is how easy nowadays to create a smart and helpful applications for daily life by utilizing the ChatGPT. Beside the model used in this app, there are a lot of models and different completions or cases (ImageCompletion) to try out for various purposes. The creativity is endless.
+The app in my opinion is very useful in everyday work to help me learning new language. Even though the technical part in the app is very simple but it demonstrates one point, which is how easy nowadays to create a smart, interesting and helpful applications for daily life by utilizing the ChatGPT. Beside the model used in this app, there are a lot of models and different completions or cases (ImageCompletion) to try out for various purposes. The creativity is endless.
 
-## Source code & screenshots
+## Source code
 
 Here is the source code for working app
 
 https://github.com/pholeth/gpt-writing
-
-And the screenshots of the working app
-
-![App screenshot](./docs/app-screenshot.png)

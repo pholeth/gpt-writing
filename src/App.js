@@ -36,6 +36,7 @@ function App() {
   const [paragraph, setParagraph] = useState("");
   const [review, setReview] = useState("");
   const [writing, setWriting] = useState("");
+  const [words, setWords] = useState([]);
 
   const [practiseLoading, setPractiseLoading] = useState(false);
   const [reviewLoading, setReviewLoading] = useState(false);
@@ -80,6 +81,18 @@ function App() {
     );
 
     setReview(content);
+
+    const json = await queryChatGPT(
+      `Pick up 3 new words in the writing or the correct and output them as an array with key "word" in JSON format:
+      "${writing}"`,
+      {
+        temperature: 1, // we want the text to be most randomized
+      }
+    );
+
+    const words = JSON.parse(json);
+
+    setWords(words.map((w) => w.word));
     setReviewLoading(false);
   };
 
@@ -137,7 +150,7 @@ function App() {
 
               <div className="buttons">
                 <Button onClick={onReview} loading={reviewLoading}>
-                  Check writing by ChatGPT
+                  Check writing
                 </Button>
               </div>
             </SimpleGrid>
@@ -156,6 +169,12 @@ function App() {
                 </span>
               ))}
             </Text>
+
+            {words.length > 0 && (
+              <h5>
+                Words to note: <b>{words.join(", ")}</b>
+              </h5>
+            )}
           </>
         )}
       </div>
