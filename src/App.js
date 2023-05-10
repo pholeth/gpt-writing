@@ -31,15 +31,18 @@ const useChatGPT = (configuration) => {
 };
 
 function App() {
-  const [size, setSize] = useState(1);
-  const [level, setLevel] = useState("medium");
+  const [size, setSize] = useState(3);
+  const [level, setLevel] = useState("easy");
   const [paragraph, setParagraph] = useState("");
   const [review, setReview] = useState("");
   const [writing, setWriting] = useState("");
   const [words, setWords] = useState([]);
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
 
   const [practiseLoading, setPractiseLoading] = useState(false);
   const [reviewLoading, setReviewLoading] = useState(false);
+  const [askLoading, setAskLoading] = useState(false);
 
   const { queryChatGPT } = useChatGPT(configuration);
 
@@ -57,7 +60,7 @@ function App() {
     setPractiseLoading(true);
 
     const content = await queryChatGPT(
-      `Generate a paragraph (in English) in a random topic with maximum ${size} lines and at level ${level}`,
+      `Generate a paragraph (in English) in a random daily topic with maximum ${size} lines and at level ${level}`,
       {
         temperature: 1, // we want the text to be most randomized
       }
@@ -74,7 +77,8 @@ function App() {
       `Check and review the following writing which is translated from the original text:
       "${writing}"
 
-      The original text: "${paragraph}".`,
+      The original text: "${paragraph}".
+      `,
       {
         temperature: 0, // we want the result to be consistent
       }
@@ -83,17 +87,29 @@ function App() {
     setReview(content);
 
     const json = await queryChatGPT(
-      `Pick up 3 new words in the writing or the correct and output them as an array with key "word" in JSON format:
+      `Generate 3 new words related to the following writing's topic and output them as an array with key "word" in JSON format:
       "${writing}"`,
       {
         temperature: 1, // we want the text to be most randomized
       }
     );
 
-    const words = JSON.parse(json);
+    try {
+      const words = JSON.parse(json);
 
-    setWords(words.map((w) => w.word));
-    setReviewLoading(false);
+      setWords((words || []).map((w) => w.word));
+    } finally {
+      setReviewLoading(false);
+    }
+  };
+
+  const onAsk = async () => {
+    setAskLoading(true);
+
+    const answer = await queryChatGPT(question);
+
+    setAnswer(answer);
+    setAskLoading(false);
   };
 
   return (
@@ -174,6 +190,38 @@ function App() {
               <h5>
                 Words to note: <b>{words.join(", ")}</b>
               </h5>
+            )}
+
+            <SimpleGrid cols={2}>
+              <Textarea
+                placeholder="Question"
+                label="Ask more question"
+                value={question}
+                onChange={(event) => setQuestion(event.currentTarget.value)}
+                autosize
+                size="md"
+                minRows={1}
+              />
+
+              <div className="buttons">
+                <Button onClick={onAsk} loading={askLoading}>
+                  Ask
+                </Button>
+              </div>
+            </SimpleGrid>
+
+            {answer && (
+              <>
+                <h4>Answer</h4>
+                <Text fz="lg" c="orange" className="App-text">
+                  {answer.split("\n").map((item, idx) => (
+                    <span key={idx}>
+                      {item}
+                      <br />
+                    </span>
+                  ))}
+                </Text>
+              </>
             )}
           </>
         )}
