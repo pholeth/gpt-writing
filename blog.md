@@ -164,6 +164,4 @@ The app in my opinion is very useful in everyday work to help me learning new la
 
 ## Source code
 
-Here is the source code for working app
-
-https://github.com/pholeth/gpt-writing
+You can find the source code from the zip file. The final source has been refactored a little bit but the idea is pretty much the same as described in the article of using the prompt with ChatGPT
