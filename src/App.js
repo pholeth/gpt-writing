@@ -107,16 +107,15 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Practice Writing with ChatGPT</h1>
+
+        {!process.env.REACT_APP_OPENAI_API_KEY && (
+          <Badge color="red">
+            Please setup the OpenAI API Key as instruction.
+          </Badge>
+        )}
       </header>
 
       <div className="App-main">
-        {!process.env.REACT_APP_OPENAI_API_KEY && (
-          <Badge color="red">
-            Please setup the OpenAI API Key as instruction. Otherwise, features
-            won't work
-          </Badge>
-        )}
-
         <SimpleGrid cols={2}>
           <SimpleGrid cols={2}>
             <Select
