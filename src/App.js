@@ -1,4 +1,11 @@
-import { Select, SimpleGrid, Button, Textarea, Text } from "@mantine/core";
+import {
+  Select,
+  SimpleGrid,
+  Button,
+  Textarea,
+  Text,
+  Badge,
+} from "@mantine/core";
 import { useState } from "react";
 import { Configuration, OpenAIApi } from "openai";
 
@@ -103,6 +110,13 @@ function App() {
       </header>
 
       <div className="App-main">
+        {!process.env.REACT_APP_OPENAI_API_KEY && (
+          <Badge color="red">
+            Please setup the OpenAI API Key as instruction. Otherwise, features
+            won't work
+          </Badge>
+        )}
+
         <SimpleGrid cols={2}>
           <SimpleGrid cols={2}>
             <Select
