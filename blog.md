@@ -164,4 +164,24 @@ The app in my opinion is very useful in everyday work to help me learning new la
 
 ## Source code
 
-You can find the source code from the zip file. The final source has been refactored a little bit but the idea is pretty much the same as described in the article of using the prompt with ChatGPT
+You can find the source code from the zip file. The final source has been refactored a little bit but the idea is pretty much the same as described in the article of using the prompt with ChatGPT.
+
+### How to setup and run it locally
+
+Unzip the file, go to the folder and run
+
+```
+$ npm install
+```
+
+Then create a file named `.env.local` with following content
+
+```
+REACT_APP_OPENAI_API_KEY=<YOUR-OPENID-API-KEY>
+```
+
+Then finally, run
+
+```
+$ npm start
+```
