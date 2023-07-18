@@ -78,10 +78,10 @@ function App() {
     setReviewLoading(true);
 
     const content = await queryChatGPT(
-      `Check and review the following writing which is translated from the original text:
-      "${writing}"
+      `The original text: "${paragraph}".
 
-      The original text: "${paragraph}".`,
+      Check and review the following writing which is translated from the original text:
+      "${writing}".`,
       {
         temperature: 0, // we want the result to be consistent
       }
