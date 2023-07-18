@@ -97,10 +97,13 @@ function App() {
       }
     );
 
-    const words = JSON.parse(json);
+    try {
+      const data = JSON.parse(json);
 
-    setWords(words.map((w) => w.word));
-    setReviewLoading(false);
+      setWords(data.words || data.word || []);
+    } finally {
+      setReviewLoading(false);
+    }
   };
 
   return (
