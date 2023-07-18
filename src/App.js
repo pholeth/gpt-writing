@@ -1,4 +1,11 @@
-import { Select, SimpleGrid, Button, Textarea, Text } from "@mantine/core";
+import {
+  Select,
+  SimpleGrid,
+  Button,
+  Textarea,
+  Text,
+  Badge,
+} from "@mantine/core";
 import { useState } from "react";
 import { Configuration, OpenAIApi } from "openai";
 
@@ -100,6 +107,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Practice Writing with ChatGPT</h1>
+
+        {!process.env.REACT_APP_OPENAI_API_KEY && (
+          <Badge color="red">
+            Please setup the OpenAI API Key as instruction.
+          </Badge>
+        )}
       </header>
 
       <div className="App-main">
