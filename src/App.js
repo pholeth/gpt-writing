@@ -81,12 +81,10 @@ function App() {
     setReviewLoading(true);
 
     const content = await queryChatGPT(
-      `
-      The original text: "${paragraph}"
+      `The original text: "${paragraph}".
 
       Check and review the following writing which is translated from the original text:
-      "${writing}"
-      `,
+      "${writing}".`,
       {
         temperature: 0, // we want the result to be consistent
       }
@@ -104,8 +102,7 @@ function App() {
 
     try {
       const data = JSON.parse(json);
-
-      setWords((data.word || []).map((w) => w.word));
+      setWords(data.words || data.word || []);
     } finally {
       setReviewLoading(false);
     }
