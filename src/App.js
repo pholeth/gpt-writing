@@ -83,7 +83,7 @@ function App() {
     const content = await queryChatGPT(
       `The original text: "${paragraph}".
 
-      Check and review the following writing which is translated from the original text:
+      Check and review the following translated text:
       "${writing}".`,
       {
         temperature: 0, // we want the result to be consistent
